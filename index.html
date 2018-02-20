@@ -99,6 +99,8 @@
       Todo: <span id="todo-count">1</span> •
       Done: <span id="completed-count">0</span> •
       Total: <span id="total-count">1</span>
+
+      <a href="#" id="clean-up">Clean up</a>
     </div>
   </div>
 
@@ -141,7 +143,7 @@
       var checkbox = $('<input>');
       checkbox.attr('type', 'checkbox');
       checkbox.attr('id', checkboxId);
-      checkbox.val(1);
+      //checkbox.val(1);
       checkbox.bind('change', toggleDone);
 
       var space = document.createTextNode(" ");
@@ -163,12 +165,21 @@
       return $(".todo").length + 1;
     }
 
+    function cleanUpDoneTodos(event) {
+      event.preventDefault();
+      $.when($(".completed").remove())
+        .then(updateCounters);
+    }
+
+
+
 
     $(document).ready(function() {
       $("input[type=checkbox]").bind('change', toggleDone);
+      $("form").bind('submit', submitTodo);
+      $("#clean-up").bind('click', cleanUpDoneTodos);
       updateCounters(); // Just add this line
     });
-    $("form").bind('submit', submitTodo);
   </script>
 </body>
 </html>
